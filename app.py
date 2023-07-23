@@ -70,7 +70,27 @@ def main():
 
         st.write("Predicted Category:", category_name)
 
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
+user_question = "Datascience"
+
+## Create a TF-IDF vectorizer to convert the text data and query to a vector representation
+tfidf.fit_transform(df['Resume'].values.tolist() + [user_question])
+
+# Get the vector representation of the question and answer
+answer_tfidf = tfidf.transform(df['Resume']).toarray()
+test_tfidf = tfidf.transform([user_question]).toarray()
+
+# Calculate the cosine similarity between both vectors
+cosine_sims = cosine_similarity(answer_tfidf, test_tfidf)
+
+# Get the index of the most similar text to the query
+most_similar_idx = np.argmax(cosine_sims)
+
+# Print the most similar text as the answer to the query
+print("Resume: ", df.iloc[most_similar_idx]['Resume'])
 
 # python main
 if __name__ == "__main__":
