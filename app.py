@@ -9,6 +9,42 @@ nltk.download('stopwords')
 #loading models
 clf = pickle.load(open('clf.pkl','rb'))
 tfidfd = pickle.load(open('tfidf.pkl','rb'))
+import pandas as pd
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+import re
+import string
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+
+stop_words = set(stopwords.words('english'))
+# Define a function to preprocess text
+def preprocess_text(text):
+    
+    text = text.lower() # lower case conversion
+    text = re.sub('[%s]' % re.escape(string.punctuation),'',text) # removal of punctuation
+    text = re.sub("\[.*?\]'\w+", '',text) # removal of ticks and next character 
+    text = re.sub(r'\w*\d+\w*', '', text) # removal of numbers
+    text = re.sub('\n', '', text)# removal of special characters
+    text = text.encode('ascii','ignore').decode() # removal of unicode characters
+    tokens = word_tokenize(text) # tokenizing the text
+    filtered_text = [w for w in tokens if not w in stop_words] # removing stop words
+    return " ". join(filtered_text) # returning the process text data.
+
+# applying the changes in the dataframe.
+df['Resume'] = df['Resume'].apply(preprocess_text)
+
+# Define a function to lemmatize text
+lemm = WordNetLemmatizer()
+def lemmatize(data):
+    text = [lemm.lemmatize(word) for word in data]
+    return data
+
+df['Resume'] = df['Resume'].apply(lambda x: lemmatize(x))
+
 
 def clean_resume(resume_text):
     clean_text = re.sub('http\S+\s*', ' ', resume_text)
