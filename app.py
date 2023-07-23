@@ -5,7 +5,8 @@ import nltk
 
 nltk.download('punkt')
 nltk.download('stopwords')
-
+df=pd.read_csv('UpdatedResumeDataSet.csv')
+df
 #loading models
 clf = pickle.load(open('clf.pkl','rb'))
 tfidfd = pickle.load(open('tfidf.pkl','rb'))
