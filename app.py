@@ -6,8 +6,7 @@ import pandas as pd
 import numpy as np 
 nltk.download('punkt')
 nltk.download('stopwords')
-df=pd.read_csv('UpdatedResumeDataSet.csv')
-df
+
 #loading models
 clf = pickle.load(open('clf.pkl','rb'))
 tfidfd = pickle.load(open('tfidf.pkl','rb'))
@@ -35,7 +34,8 @@ def preprocess_text(text):
     tokens = word_tokenize(text) # tokenizing the text
     filtered_text = [w for w in tokens if not w in stop_words] # removing stop words
     return " ". join(filtered_text) # returning the process text data.
-
+df=pd.read_csv('UpdatedResumeDataSet.csv')
+df
 # applying the changes in the dataframe.
 df['Resume'] = df['Resume'].apply(preprocess_text)
 
