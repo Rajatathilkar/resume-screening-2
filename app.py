@@ -47,7 +47,10 @@ def lemmatize(data):
 
 df['Resume'] = df['Resume'].apply(lambda x: lemmatize(x))
 
-
+from sklearn .feature_extraction.text import TfidfVectorizer 
+tfidf=TfidfVectorizer(stop_words='english')
+tfidf.fit(df['Resume'])
+vectorizer=tfidf.transform(df['Resume'])
 def clean_resume(resume_text):
     clean_text = re.sub('http\S+\s*', ' ', resume_text)
     clean_text = re.sub('RT|cc', ' ', clean_text)
