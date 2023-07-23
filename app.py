@@ -2,7 +2,8 @@ import streamlit as st
 import pickle
 import re
 import nltk
-
+import pandas as pd 
+import numpy as np 
 nltk.download('punkt')
 nltk.download('stopwords')
 df=pd.read_csv('UpdatedResumeDataSet.csv')
